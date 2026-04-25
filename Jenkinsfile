@@ -1,10 +1,14 @@
 pipeline {
     agent any
+    environment {
+        VERSION = '1.0.0'
+        APP_NAME = 'MyAwesomeApp'
+    }
     stages {
         stage('Build') {
             steps {
                 echo 'Building..'
-                // Here you can define commands for your build
+                echo "Building version ${VERSION} of ${APP_NAME}"
             }
         }
         stage('Test') {
@@ -15,13 +19,13 @@ pipeline {
             }
             steps {
                 echo 'Testing..'
-                // Here you can define commands for your tests
+                echo "Testing ${APP_NAME}"
             }
         }
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                // Here you can define commands for your deployment
+                echo "Deploying ${APP_NAME} version ${VERSION}"
             }
         }
     }
