@@ -1,20 +1,24 @@
 pipeline {
     agent any
+    parameters {
+        string(name: 'VERSION', defaultValue: '1.0.0', description: 'Version to deploy')
+        choice(name: 'ENVIRONMENT', choices: ['dev', 'staging', 'production'], description: 'Target environment')
+        booleanParam(name: 'executeTests', defaultValue: true, description: 'Execute test stage?')
+    }
     environment {
-        VERSION = '1.0.0'
         APP_NAME = 'MyAwesomeApp'
     }
     stages {
         stage('Build') {
             steps {
                 echo 'Building..'
-                echo "Building version ${VERSION} of ${APP_NAME}"
+                echo "Building version ${params.VERSION} of ${APP_NAME}"
             }
         }
         stage('Test') {
             when {
                 expression { 
-                    return true
+                    return params.executeTests == true
                 }
             }
             steps {
@@ -25,7 +29,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                echo "Deploying ${APP_NAME} version ${VERSION}"
+                echo "Deploying ${APP_NAME} version ${params.VERSION} to ${params.ENVIRONMENT}"
             }
         }
     }
