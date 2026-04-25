@@ -8,6 +8,11 @@ pipeline {
             }
         }
         stage('Test') {
+            when {
+                expression { 
+                    return true
+                }
+            }
             steps {
                 echo 'Testing..'
                 // Here you can define commands for your tests
@@ -30,6 +35,5 @@ pipeline {
         failure {
             echo 'This will run only if the build fails'
         }
-        
     }
 }
